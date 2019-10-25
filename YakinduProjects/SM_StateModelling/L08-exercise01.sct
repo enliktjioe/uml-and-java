@@ -7,13 +7,13 @@
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_ukE4YfTCEemmEPh1n4C5AQ" name="Draft" incomingTransitions="_ukJJ0fTCEemmEPh1n4C5AQ">
         <outgoingTransitions xmi:id="_Xy1fwPTDEemmEPh1n4C5AQ" specification="app submission" target="_2Pu8gPTCEemmEPh1n4C5AQ"/>
-        <outgoingTransitions xmi:id="_dKHtgPTDEemmEPh1n4C5AQ" specification="" target="_4MmR0PTCEemmEPh1n4C5AQ"/>
+        <outgoingTransitions xmi:id="_dKHtgPTDEemmEPh1n4C5AQ" specification="withdraw" target="_4MmR0PTCEemmEPh1n4C5AQ"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_2Pu8gPTCEemmEPh1n4C5AQ" name="Submitted" incomingTransitions="_Xy1fwPTDEemmEPh1n4C5AQ">
-        <outgoingTransitions xmi:id="_dx0msPTDEemmEPh1n4C5AQ" specification="" target="_75jEsPTCEemmEPh1n4C5AQ"/>
-        <outgoingTransitions xmi:id="_eFKZcPTDEemmEPh1n4C5AQ" specification="" target="_8p0rIvTCEemmEPh1n4C5AQ"/>
-        <outgoingTransitions xmi:id="_ebZIIPTDEemmEPh1n4C5AQ" specification="" target="_9TBZEPTCEemmEPh1n4C5AQ"/>
-        <outgoingTransitions xmi:id="_qc3V8PTDEemmEPh1n4C5AQ" specification="" target="_4MmR0PTCEemmEPh1n4C5AQ"/>
+        <outgoingTransitions xmi:id="_dx0msPTDEemmEPh1n4C5AQ" specification="accept" target="_75jEsPTCEemmEPh1n4C5AQ"/>
+        <outgoingTransitions xmi:id="_eFKZcPTDEemmEPh1n4C5AQ" specification="reject" target="_8p0rIvTCEemmEPh1n4C5AQ"/>
+        <outgoingTransitions xmi:id="_ebZIIPTDEemmEPh1n4C5AQ" specification="cancel" target="_9TBZEPTCEemmEPh1n4C5AQ"/>
+        <outgoingTransitions xmi:id="_qc3V8PTDEemmEPh1n4C5AQ" specification="withdraw" target="_4MmR0PTCEemmEPh1n4C5AQ"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_4MmR0PTCEemmEPh1n4C5AQ" name="Withdrawn" incomingTransitions="_dKHtgPTDEemmEPh1n4C5AQ _o535MPTDEemmEPh1n4C5AQ _qc3V8PTDEemmEPh1n4C5AQ">
         <outgoingTransitions xmi:id="_vjaZAPTDEemmEPh1n4C5AQ" specification="" target="_u4RKQPTDEemmEPh1n4C5AQ"/>
