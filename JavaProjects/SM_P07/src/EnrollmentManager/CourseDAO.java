@@ -30,18 +30,18 @@ public class CourseDAO {
 
 
 	public static boolean insertCourse(Course course){
-		Connection con = null;
-		Statement stmt = null;
-		int result = 0;
-		try {
-			Class.forName("org.hsqldb.jdbc.JDBCDriver");
-			con = DriverManager.getConnection( "jdbc:hsqldb:hsql://localhost/universitydb", "SA", "");
-			stmt = con.createStatement();
-			result = stmt.executeUpdate("INSERT INTO course VALUES ('"+course.getTitle()+"')");
+		Connection con = null; 
+		Statement stmt = null; 
+		int result = 0; 
+		try { 
+			Class.forName("org.hsqldb.jdbc.JDBCDriver"); 
+			con = DriverManager.getConnection( "jdbc:hsqldb:hsql://localhost/universitydb", "SA", ""); 
+			stmt = con.createStatement(); 
+			result = stmt.executeUpdate("INSERT INTO course VALUES ('"+course.getTitle()+"')"); 
 			con.commit();
-		}catch (Exception e) {
-			e.printStackTrace(System.out);
-		}
+		}catch (Exception e) { 
+			e.printStackTrace(System.out); 
+		} 
 		if(result == 0){
 			return false;
 		}

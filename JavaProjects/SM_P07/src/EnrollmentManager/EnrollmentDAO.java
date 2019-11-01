@@ -22,7 +22,7 @@ public class EnrollmentDAO {
 					"SELECT * FROM enrollment WHERE studentID = '"+studentID+"' AND title = '"+courseTitle+"';");
 			while(result.next()){
 				output= true;
-			}
+			}			
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
@@ -31,18 +31,18 @@ public class EnrollmentDAO {
 
 
 	public static boolean insertEnrollment(String studentID, String courseTitle){
-		Connection con = null;
-		Statement stmt = null;
-		int result = 0;
-		try {
-			Class.forName("org.hsqldb.jdbc.JDBCDriver");
-			con = DriverManager.getConnection( "jdbc:hsqldb:hsql://localhost/universitydb", "SA", "");
-			stmt = con.createStatement();
-			result = stmt.executeUpdate("INSERT INTO enrollment VALUES ('"+studentID+"','"+courseTitle+"');");
+		Connection con = null; 
+		Statement stmt = null; 
+		int result = 0; 
+		try { 
+			Class.forName("org.hsqldb.jdbc.JDBCDriver"); 
+			con = DriverManager.getConnection( "jdbc:hsqldb:hsql://localhost/universitydb", "SA", ""); 
+			stmt = con.createStatement(); 
+			result = stmt.executeUpdate("INSERT INTO enrollment VALUES ('"+studentID+"','"+courseTitle+"');"); 
 			con.commit();
-		}catch (Exception e) {
-			e.printStackTrace(System.out);
-		}
+		}catch (Exception e) { 
+			e.printStackTrace(System.out); 
+		} 
 		if(result == 0){
 			return false;
 		}

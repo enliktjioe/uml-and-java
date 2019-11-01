@@ -1,22 +1,14 @@
 package EnrollmentManager;
 
-/**
- * @(#) EnrollmentManager.Student.java
- */
+public class Student {
 
-public class Student
-{
 	private String studentID;
-	
-	private java.util.List<Course> course;
-	
-	public void setID( String studentID )
-	{
-		
+
+	public void setID(String nextLine) {
+		this.studentID = nextLine;
 	}
 
-
-	public boolean getID() {
-		return false;
+	public String getID() {
+		return studentID;
 	}
 }
