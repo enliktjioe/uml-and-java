@@ -12,7 +12,8 @@ define
   ResourceInvariant == resources_left >= 0
 end define;
  
-process actor = "actor"
+process actor = {"actor1", "actor2"}
+
 variables
   resources_needed \in 1..MaxConsumerReq
 begin
@@ -40,19 +41,19 @@ VARIABLE resources_needed
 
 vars == << resources_left, pc, resources_needed >>
 
-ProcSet == {"actor"} \cup {"time"}
+ProcSet == {{"actor1", "actor2"}} \cup {"time"}
 
 Init == (* Global variables *)
         /\ resources_left = ResourceCap
         (* Process actor *)
         /\ resources_needed \in 1..MaxConsumerReq
-        /\ pc = [self \in ProcSet |-> CASE self = "actor" -> "UseResources"
+        /\ pc = [self \in ProcSet |-> CASE self = {"actor1", "actor2"} -> "UseResources"
                                         [] self = "time" -> "Tick"]
 
-UseResources == /\ pc["actor"] = "UseResources"
+UseResources == /\ pc[{"actor1", "actor2"}] = "UseResources"
                 /\ resources_left >= resources_needed
                 /\ resources_left' = resources_left - resources_needed
-                /\ pc' = [pc EXCEPT !["actor"] = "UseResources"]
+                /\ pc' = [pc EXCEPT ![{"actor1", "actor2"}] = "UseResources"]
                 /\ UNCHANGED resources_needed
 
 actor == UseResources
@@ -71,5 +72,5 @@ Spec == Init /\ [][Next]_vars
 \* END TRANSLATION
 =============================================================================
 \* Modification History
-\* Last modified Fri Nov 22 16:29:17 EET 2019 by enlik
+\* Last modified Fri Nov 22 16:53:11 EET 2019 by enlik
 \* Created Fri Nov 22 16:22:20 EET 2019 by enlik
