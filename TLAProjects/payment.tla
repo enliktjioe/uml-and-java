@@ -55,7 +55,9 @@ process backoffice = "backoffice"
 begin CheckTransaction:
   while TRUE do
     await investigating;
+    \* if ~card_is_valid then
     locked := TRUE;
+    \* end if
     investigating := FALSE;
   end while
 end process
@@ -130,5 +132,5 @@ Spec == Init /\ [][Next]_vars
 \* END TRANSLATION
 =============================================================================
 \* Modification History
-\* Last modified Tue Dec 03 16:56:06 EET 2019 by enlik
+\* Last modified Tue Dec 03 17:29:39 EET 2019 by enlik
 \* Created Tue Dec 03 16:27:14 EET 2019 by enlik

@@ -1,10 +1,4 @@
 ------------------------------ MODULE cache_p3 ------------------------------
-
-
-=============================================================================
-\* Modification History
-\* Last modified Tue Nov 26 16:25:20 EET 2019 by enlik
-\* Created Tue Nov 26 16:22:10 EET 2019 by enlik
 EXTENDS Integers, Sequences, TLC
 CONSTANT ResourceCap, MaxConsumerReq
  
@@ -102,3 +96,8 @@ Spec == /\ Init /\ [][Next]_vars
         /\ WF_vars(time)
 
 \* END TRANSLATION
+
+=============================================================================
+\* Modification History
+\* Last modified Tue Dec 03 17:04:18 EET 2019 by enlik
+\* Created Tue Nov 26 16:22:10 EET 2019 by enlik
