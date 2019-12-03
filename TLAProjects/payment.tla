@@ -40,6 +40,8 @@ begin User:
        and add a new payment method. We will then be able to clear any outstanding
        transactions and unlock their account. *)
     when ~card_is_valid;
+    
+    
     UpdateCard:
       card_is_valid := TRUE;
       locked := FALSE;
@@ -57,7 +59,7 @@ begin CheckTransaction:
     await investigating;
     \* if ~card_is_valid then
     locked := TRUE;
-    \* end if
+    \* end if;
     investigating := FALSE;
   end while
 end process
@@ -132,5 +134,5 @@ Spec == Init /\ [][Next]_vars
 \* END TRANSLATION
 =============================================================================
 \* Modification History
-\* Last modified Tue Dec 03 17:29:39 EET 2019 by enlik
+\* Last modified Tue Dec 03 18:27:41 EET 2019 by enlik
 \* Created Tue Dec 03 16:27:14 EET 2019 by enlik
