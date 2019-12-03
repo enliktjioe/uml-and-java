@@ -1,10 +1,4 @@
 ------------------------------ MODULE payment ------------------------------
-
-
-=============================================================================
-\* Modification History
-\* Last modified Tue Dec 03 16:27:18 EET 2019 by enlik
-\* Created Tue Dec 03 16:27:14 EET 2019 by enlik
 EXTENDS Integers, TLC
  
 (* --algorithm payment
@@ -12,11 +6,12 @@ EXTENDS Integers, TLC
 variables
   card_is_valid = TRUE,
   locked = FALSE,
-  investigating = FALSE
+  investigating = FALSE,
+  ghost_debt = 0
  
 define
-  LimitOutstandingDebt == TRUE (* Replace with own condition. *)
-  may_use_service == TRUE  (* Replace with own condition. *)
+  LimitOutstandingDebt == ghost_debt <= 1 (* Replace with own condition. *)
+  may_use_service == ~locked  (* Replace with own condition. *)
 end define
  
 (* As time passes, our credit card may expire: *)
@@ -38,6 +33,7 @@ begin User:
       (* If the payment fails, we will flag this for investigation. *)
       if ~card_is_valid then
         investigating := TRUE;
+        ghost_debt := ghost_debt + 1;
       end if;
   or
     (* If the user has an invalid card, they can get a new card from the bank
@@ -47,6 +43,7 @@ begin User:
     UpdateCard:
       card_is_valid := TRUE;
       locked := FALSE;
+      ghost_debt := 0;
   end either;
   end while
 end process
@@ -65,14 +62,14 @@ end process
  
 end algorithm *)
 \* BEGIN TRANSLATION
-VARIABLES card_is_valid, locked, investigating, pc
+VARIABLES card_is_valid, locked, investigating, ghost_debt, pc
 
 (* define statement *)
-LimitOutstandingDebt == TRUE
-may_use_service == TRUE
+LimitOutstandingDebt == ghost_debt <= 1
+may_use_service == ~locked
 
 
-vars == << card_is_valid, locked, investigating, pc >>
+vars == << card_is_valid, locked, investigating, ghost_debt, pc >>
 
 ProcSet == {"time"} \cup {"user"} \cup {"backoffice"}
 
@@ -80,6 +77,7 @@ Init == (* Global variables *)
         /\ card_is_valid = TRUE
         /\ locked = FALSE
         /\ investigating = FALSE
+        /\ ghost_debt = 0
         /\ pc = [self \in ProcSet |-> CASE self = "time" -> "Time"
                                         [] self = "user" -> "User"
                                         [] self = "backoffice" -> "CheckTransaction"]
@@ -87,7 +85,7 @@ Init == (* Global variables *)
 Time == /\ pc["time"] = "Time"
         /\ card_is_valid' = FALSE
         /\ pc' = [pc EXCEPT !["time"] = "Done"]
-        /\ UNCHANGED << locked, investigating >>
+        /\ UNCHANGED << locked, investigating, ghost_debt >>
 
 time == Time
 
@@ -96,19 +94,21 @@ User == /\ pc["user"] = "User"
               /\ pc' = [pc EXCEPT !["user"] = "TakeRide"]
            \/ /\ ~card_is_valid
               /\ pc' = [pc EXCEPT !["user"] = "UpdateCard"]
-        /\ UNCHANGED << card_is_valid, locked, investigating >>
+        /\ UNCHANGED << card_is_valid, locked, investigating, ghost_debt >>
 
 TakeRide == /\ pc["user"] = "TakeRide"
             /\ IF ~card_is_valid
                   THEN /\ investigating' = TRUE
+                       /\ ghost_debt' = ghost_debt + 1
                   ELSE /\ TRUE
-                       /\ UNCHANGED investigating
+                       /\ UNCHANGED << investigating, ghost_debt >>
             /\ pc' = [pc EXCEPT !["user"] = "User"]
             /\ UNCHANGED << card_is_valid, locked >>
 
 UpdateCard == /\ pc["user"] = "UpdateCard"
               /\ card_is_valid' = TRUE
               /\ locked' = FALSE
+              /\ ghost_debt' = 0
               /\ pc' = [pc EXCEPT !["user"] = "User"]
               /\ UNCHANGED investigating
 
@@ -119,7 +119,7 @@ CheckTransaction == /\ pc["backoffice"] = "CheckTransaction"
                     /\ locked' = TRUE
                     /\ investigating' = FALSE
                     /\ pc' = [pc EXCEPT !["backoffice"] = "CheckTransaction"]
-                    /\ UNCHANGED card_is_valid
+                    /\ UNCHANGED << card_is_valid, ghost_debt >>
 
 backoffice == CheckTransaction
 
@@ -128,3 +128,7 @@ Next == time \/ user \/ backoffice
 Spec == Init /\ [][Next]_vars
 
 \* END TRANSLATION
+=============================================================================
+\* Modification History
+\* Last modified Tue Dec 03 16:56:06 EET 2019 by enlik
+\* Created Tue Dec 03 16:27:14 EET 2019 by enlik
